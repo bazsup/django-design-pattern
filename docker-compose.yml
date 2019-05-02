@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  postgres:
+    build:
+      context: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  gateway:
+    build:
+      context: service-gateway
+      dockerfile: Dockerfile.local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./service-gateway:/app
+    command: bash -c "chmod +x entrypoint-local.sh && ./entrypoint-local.sh"
+    environment:
+      - GATEWAY_DATABASE_HOST=postgres
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:

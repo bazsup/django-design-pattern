@@ -1,0 +1,4 @@
+-r base.txt
+
+# code checker: pep8, pyflakes, co
+flake8==3.7.7
